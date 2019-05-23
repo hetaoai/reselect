@@ -25,7 +25,7 @@ export function defaultMemoize(func, equalityCheck = defaultEqualityCheck) {
   return function () {
     if (!areArgumentsShallowlyEqual(equalityCheck, lastArgs, arguments)) {
       // apply arguments instead of spreading for performance.
-      lastResult = func.apply(null, arguments)
+      lastResult = func.apply(this, arguments)
     }
 
     lastArgs = arguments
@@ -59,7 +59,7 @@ export function createSelectorCreator(memoize, ...memoizeOptions) {
       function () {
         recomputations++
         // apply arguments instead of spreading for performance.
-        return resultFunc.apply(null, arguments)
+        return resultFunc.apply(this, arguments)
       },
       ...memoizeOptions
     )
@@ -75,7 +75,7 @@ export function createSelectorCreator(memoize, ...memoizeOptions) {
       }
 
       // apply arguments instead of spreading for performance.
-      return memoizedResultFunc.apply(null, params)
+      return memoizedResultFunc.apply(this, params)
     })
 
     selector.resultFunc = resultFunc
